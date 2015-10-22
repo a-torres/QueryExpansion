@@ -19,8 +19,8 @@ import java.util.List;
 public class WSDWordNet {
     
     String[] terms; 
-    List<String[]> listSym;
-    List<String[]> listHyp;
+    List<List<String>> listSym;
+    List<List<String>> listHyp;
     
     public WSDWordNet(){
         
@@ -31,48 +31,57 @@ public class WSDWordNet {
         listSym = new ArrayList<>();
         listHyp = new ArrayList<>();
         
+        //System.out.println("termino 0"+terms[0]);
         WordNetDatabase database = WordNetDatabase.getFileInstance();    
 
         for (String t: terms){
             Synset [] synsets  = database.getSynsets(t, SynsetType.NOUN);
             NounSynset nounSynset;
             NounSynset[] hyponyms;
-
+            List<String> s_listSym = new ArrayList<>();// = new String[nounSynset.getWordForms().length];
+            List<String> s_listHyp = new ArrayList<>();// = new String[hyponyms.length];  
+            
+       
             for (Synset s:synsets){
                 nounSynset = (NounSynset) (s);
                 hyponyms = nounSynset.getHyponyms();
                 
-                String [] s_listSym = new String[nounSynset.getWordForms().length];
-                String [] s_listHyp = new String[hyponyms.length];
-                
+                System.out.println("sim:"+ s.toString());
+              /*
+                s_listSym = new String[nounSynset.];
+                s_listHyp = new String[hyponyms.length];
+                      */
+
                 for (int j = 0; j < nounSynset.getWordForms().length; j++) {
-                    s_listSym[j] = nounSynset.getWordForms()[j];
-                    System.out.println("Sym: "+ nounSynset.getWordForms()[j]);
+                    s_listSym.add(nounSynset.getWordForms()[j]);
+                   // System.out.println("Sym: "+ nounSynset.getWordForms()[j]);
                 }
                 for (int j = 0; j < hyponyms.length; j++) {
-                    s_listHyp[j] = hyponyms[j].getWordForms()[0];
-                    System.out.println("Hyp: "+ hyponyms[j].getWordForms()[0]);
-                }
-                listSym.add(s_listSym);
-                listHyp.add(s_listHyp);
+                    s_listHyp.add(hyponyms[j].getWordForms()[0]);
+                   // System.out.println("Hyp: "+ hyponyms[j].getWordForms()[0]);
+                }   
             }
+            
+            listSym.add(s_listSym);
+            listHyp.add(s_listHyp);
+                      
             
         }
     }
 
-    public List<String[]> getListSym() {
+    public List<List<String>> getListSym() {
         return listSym;
     }
 
-    public void setListSym(List<String[]> listSym) {
+    public void setListSym(List<List<String>> listSym) {
         this.listSym = listSym;
     }
 
-    public List<String[]> getListHyp() {
+    public List<List<String>> getListHyp() {
         return listHyp;
     }
 
-    public void setListHyp(List<String[]> listHyp) {
+    public void setListHyp(List<List<String>> listHyp) {
         this.listHyp = listHyp;
     }
 

@@ -11,11 +11,11 @@ public class Sinonimos {
     String a[] = new String[2];
 
     public static void main(String a[]) {
-        String ar[] = {"faith","arplane","teacher","exam"};
+        String ar[] = {"faith"};//,"arplane","teacher","exam"};
         int k = 0;
         while (k < ar.length) {
             //System.setProperty("wordnet.database.dir", "C:\\ProgramFiles(x86)\\WordNet\\2.1\\dict");
-            System.setProperty("wordnet.database.dir","C:\\Program Files (x86)\\WordNet\\2.1\\dict\\");
+            System.setProperty("wordnet.database.dir","C:\\Program Files\\WordNet\\2.1\\dict\\");
             NounSynset nounSynset;
             NounSynset[] hyponyms;
             WordNetDatabase database = WordNetDatabase.getFileInstance();
@@ -32,7 +32,7 @@ public class Sinonimos {
                     System.out.println("Sym: "+ nounSynset.getWordForms()[j]);
                 }
                 for (int j = 0; j < hyponyms.length; j++) {
-                    System.out.println("Hyp: "+ hyponyms[j].getWordForms()[0]);
+                   // System.out.println("Hyp: "+ hyponyms[j].getWordForms()[0]);
                 }
             }
             k++;

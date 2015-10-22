@@ -8,6 +8,8 @@
  *
  * @author Guillermo Alienware
  */
+import java.util.List;
+import javax.swing.UIManager;
 public class Principal extends javax.swing.JFrame {
 
     /**
@@ -15,9 +17,10 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        System.setProperty("wordnet.database.dir","C:\\Program Files (x86)\\WordNet\\2.1\\dict\\");
+        System.setProperty("wordnet.database.dir","C:\\Program Files\\WordNet\\2.1\\dict\\");
         orginal_query = "";
         expanded_query = "";
+        wsd = new WSDWordNet ();
         //list_query_expansion;
         //list_results;
 
@@ -109,7 +112,18 @@ public class Principal extends javax.swing.JFrame {
 
     private void bn_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bn_searchActionPerformed
         // TODO add your handling code here:
-        this.tf_query.getText();
+       this.orginal_query = this.tf_query.getText();
+       wsd.processSymHyp(orginal_query);
+       
+       
+       List<List<String>> sym = wsd.getListSym();
+       System.out.println("size: "+sym.size());
+       
+       for(int i =0;i<sym.size();i++){
+           System.out.println("*******************************");
+           for(int j =0;j<sym.get(i).size();j++)
+                System.out.println(sym.get(i).get(j));
+       }
     }//GEN-LAST:event_bn_searchActionPerformed
 
     /**
@@ -139,6 +153,11 @@ public class Principal extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            System.err.println("Error loading L&F: " + e.getMessage());
+        } 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -151,6 +170,7 @@ public class Principal extends javax.swing.JFrame {
     private String expanded_query;
     private String [] list_query_expansion;
     private String [] list_results;
+    private WSDWordNet wsd;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bn_search;
